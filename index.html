@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>堕ちるOL、アオイちゃん | インタラクティブ・ノベル</title>
+    <style>
+        /* --- 基本設定 --- */
+        :root {
+            --bg-color: #0f1115; /* 深い闇のような黒 */
+            --text-main: #e0e0e0;
+            --text-sub: #a0a0a0;
+            --accent-blue: #1e3a5f; /* アオイちゃんのニット色 */
+            --accent-gold: #c5a070; /* 肌やスカートのベージュ感 */
+            --font-mincho: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HGSMinchoE", serif;
+            --font-gothic: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-gothic);
+            margin: 0;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-mincho);
+            font-weight: normal;
+            letter-spacing: 0.1em;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- ヒーローセクション --- */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #1a202c 0%, #000 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(15, 17, 21, 1) 90%);
+            z-index: 2;
+        }
+
+        .hero-img {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            z-index: 1;
+            /* 9:16画像用調整 */
+            max-width: 600px; 
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0,0,0,0.8);
+            border-bottom: 1px solid var(--accent-gold);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            color: var(--text-sub);
+            font-family: var(--font-mincho);
+        }
+
+        .catch-copy {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 30px;
+            color: var(--accent-gold);
+        }
+
+        /* --- 共通コンポーネント --- */
+        .section {
+            padding: 80px 0;
+        }
+
+        .btn-main {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, var(--accent-blue), #2c5282);
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border-radius: 2px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 15px rgba(30, 58, 95, 0.5);
+        }
+
+        .btn-main:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(30, 58, 95, 0.8);
+            letter-spacing: 0.1em;
+        }
+
+        /* --- イントロダクション --- */
+        .intro {
+            text-align: center;
+            background-color: #15181e;
+        }
+
+        .intro h2 {
+            color: var(--accent-gold);
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+
+        /* --- ストーリーセクション --- */
+        .story-block {
+            display: flex;
+            align-items: center;
+            margin-bottom: 100px;
+            gap: 40px;
+        }
+
+        .story-block:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .story-img-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .story-img {
+            width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            /* 縦長画像比率維持 */
+            aspect-ratio: 9/16;
+            object-fit: cover;
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .story-text {
+            flex: 1;
+        }
+
+        .story-phase {
+            color: var(--accent-blue);
+            font-weight: bold;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .dialogue {
+            font-family: var(--font-mincho);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #fff;
+            border-left: 3px solid var(--accent-gold);
+            padding-left: 15px;
+            line-height: 1.6;
+        }
+
+        /* --- クライマックス --- */
+        .climax {
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .climax-img {
+            width: 100%;
+            max-width: 500px;
+            margin: 40px auto;
+            display: block;
+            border-radius: 4px;
+            box-shadow: 0 0 50px rgba(197, 160, 112, 0.2);
+        }
+
+        /* --- クロージング --- */
+        .closing {
+            background: linear-gradient(to top, #000 0%, #0f1115 100%);
+            text-align: center;
+            padding-bottom: 120px;
+        }
+
+        .closing h2 {
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        /* --- スマホ対応 --- */
+        @media (max-width: 768px) {
+            .story-block, .story-block:nth-child(even) {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .dialogue {
+                font-size: 1.2rem;
+                border-left: none;
+                border-top: 2px solid var(--accent-gold);
+                padding-top: 15px;
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <img src="aoi_top.jpg" alt="初期のアオイちゃん" class="hero-img">
+        
+        <div class="hero-content">
+            <p class="catch-copy">高慢なOLが、あなたの言葉で堕ちていく。</p>
+            <h1 class="hero-title">蒼井 密の<br>二重の呪い</h1>
+            <p class="hero-subtitle">
+                「私、知らない方と馴れ合うつもりはありませんので。パイ乙」
+            </p>
+            <a href="#start" class="btn-main">今すぐ彼女を「堕」とす</a>
+        </div>
+    </header>
+
+    <section class="section intro">
+        <div class="container">
+            <h2>Character Profile</h2>
+            <p>
+                彼女の名は、<strong>蒼井 密（あおい ひそか）</strong>。<br>
+                丸の内に勤務する、プライドの高いエリートOL。<br>
+                仕事も、容姿も、スタイルも完璧。<br><br>
+                しかし、彼女はまだ知らない。<br>
+                自分にかけられた、逃れられない<strong>「二重の呪い」</strong>の存在を。
+            </p>
+        </div>
+    </section>
+
+    <section class="section story" id="story">
+        <div class="container">
+            
+            <div class="story-block">
+                <div class="story-img-wrapper">
+                    <img src="aoi_kiduki.jpg" alt="発端" class="story-img">
+                </div>
+                <div class="story-text">
+                    <span class="story-phase">PHASE 1: 発端</span>
+                    <p class="dialogue">「……え？ 私、今なんて…？」</p>
+                    <p>
+                        ある日突然、彼女の言葉の語尾に、意図しない「ノイズ」が混じり始める。<br>
+                        完璧だった日常に入った、小さな亀裂。<br>
+                        彼女はまだ、それが全ての始まりだと気づいていない。
+                    </p>
+                </div>
+            </div>
+
+            <div class="story-block">
+                <div class="story-img-wrapper">
+                    <img src="unnamed.jpg" alt="葛藤" class="story-img">
+                </div>
+                <div class="story-text">
+                    <span class="story-phase">PHASE 2: 葛藤</span>
+                    <p class="dialogue">「くっ…、体が、熱い…！<br>なんで、言うことを聞かないの…っ！」</p>
+                    <p>
+                        あなたが彼女に言葉をかけるたび、呪いは彼女の理性を侵食していく。<br>
+                        高まる熱、乱れる呼吸。<br>
+                        必死に抵抗しようとする彼女の高いプライドは、音を立てて崩れ始めていた。
+                    </p>
+                </div>
+            </div>
+
+            <div class="story-block">
+                <div class="story-img-wrapper">
+                    <img src="unnamed (2).jpg" alt="限界" class="story-img">
+                </div>
+                <div class="story-text">
+                    <span class="story-phase">PHASE 3: 限界</span>
+                    <p class="dialogue">「もう、見ないで…っ！<br>こんな姿…、誰にも…！」</p>
+                    <p>
+                        ついに限界を迎えた彼女。<br>
+                        張り付くシャツ、滲む汗、隠しきれない体のライン。<br>
+                        かつての威厳は見る影もなく、ただ自身の無様な姿への羞恥に震えることしかできない。
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section climax">
+        <div class="container">
+            <span class="story-phase">CLIMAX: 陥落</span>
+            <h2>完全なる服従</h2>
+            
+            <img src="unnamed (1).jpg" alt="陥落" class="climax-img">
+
+            <p class="dialogue" style="text-align: center; border: none;">
+                「あぁ…ご主人様…。<br>やっと呼んでくれたんですね…」
+            </p>
+            <p>
+                理性は完全に崩壊した。<br>
+                そこにいるのは、あなたに全てを委ね、心酔しきった一人の女性。<br>
+                彼女はもう、あなたの言葉なしではいられない。<br>
+                呪いの言葉さえ、あなたへの愛の証へと変わったのだ。
+            </p>
+        </div>
+    </section>
+
+    <footer class="section closing" id="start">
+        <div class="container">
+            <h2>さあ、彼女の理性を<br>あなたの手で解き放て。</h2>
+            <p style="margin-bottom: 40px;">
+                あなたの何気ない一言が、彼女を追い詰め、そして変えていく。<br>
+                この背徳の物語の結末を、あなた自身の目で確かめてください。
+            </p>
+            <a href="#" class="btn-main">「アオイちゃん」とのチャットを始める</a>
+        </div>
+    </footer>
+
+</body>
+</html>
